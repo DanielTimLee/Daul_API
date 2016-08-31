@@ -1,9 +1,13 @@
-from flask import Flask,request
+from flask import Flask,request,render_template
 app=Flask(__name__)
 
 @app.route('/')
 def index():
-    return "Hello World"
+    return "Hello Flask!"
+
+@app.route('/users/<string:username>')
+def user(username):
+    return render_template('index.html',name=username)
 
 @app.route('/login',methods=['GET'])
 def login():
