@@ -1,41 +1,22 @@
 import datetime
 
-from flask import Flask, request, render_template, jsonify
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.dialects.mysql import TIMESTAMP
-from sqlalchemy.sql.expression import text
+from flask import render_template, request, jsonify
 
-app = Flask(__name__)
-app.config.from_object('config')
+from app import app, db
+from app.models.user import UserModel
 
-db=SQLAlchemy(app)
-
-
-class UserModel(db.Model):
-    __tablename__ = 'users'
-    __table_args__ = {
-        'mysql_charset': 'utf8'
-    }
-
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True)
-    password = db.Column(db.String(80), nullable=False)
-    email = db.Column(db.String(120), unique=True)
-    created_date = db.Column(
-        TIMESTAMP,
-        default=datetime.datetime.utcnow(),
-        server_default=text('CURRENT_TIMESTAMP')
-    )
-
-db.create_all()
-
-@app.route('/')
-def index():
-    return "Hello Flask!"
 
 @app.route('/users/<string:username>')
 def user(username):
-    return render_template('index.html',name=username)
+    user = UserModel.query. \
+        filter_by(username=username). \
+        first()
+
+    if user is None:
+        raise Exception('Not Found!')
+
+    else:
+        return render_template('index.html', user=user)
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -81,5 +62,3 @@ def signin():
             })
 
     return render_template('signin.html')
-
-app.run(host='0.0.0.0',port=8880,debug=True)
