@@ -1,8 +1,18 @@
-<form action="{{ request.url }}" method="POST">
-  <label for="username">Username</label>
-  <input name="username" type="text"/>
-  <label for="password">Password</label>
-  <input name="password" type="password"/>
+{% extends 'layout.html' %}
 
-  <input type="submit" value="Sign In"/>
-</form>
+{% block title %}Flask tutorial - Signin{% endblock %}
+
+{% block style %}{% endblock %}
+
+{% block content %}
+
+  <form action="{{ request.url }}" method="POST" class="ui form signin-form">
+    <label for="username">Username</label>
+    <input name="username" type="text"/>
+    <label for="password">Password</label>
+    <input name="password" type="password"/>
+
+    <button type="submit" class="fluid ui primary button">로그인</button>
+  </form>
+
+{% endblock %}
