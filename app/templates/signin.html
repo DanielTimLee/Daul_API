@@ -6,13 +6,21 @@
 
 {% block content %}
 
-  <form action="{{ request.url }}" method="POST" class="ui form signin-form">
-    <label for="username">Username</label>
-    <input name="username" type="text"/>
-    <label for="password">Password</label>
-    <input name="password" type="password"/>
+<form action="{{ request.url }}" method="POST" class="ui form signin-form">
+  {{ form.csrf_token }} 
+  <div class="field"> 
+    <div class="ui small input"> 
+      {{ form.username(placeholder="Username") }}
+       
+    </div>
+  </div>
+  <div class="field"> 
+    <div class="ui small input"> 
+      {{ form.password(placeholder="Password") }} 
+    </div>
+  </div>
 
-    <button type="submit" class="fluid ui primary button">로그인</button>
-  </form>
+  <button type="submit" class="fluid ui primary button">로그인</button>
+</form>
 
 {% endblock %}

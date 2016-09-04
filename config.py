@@ -1,3 +1,4 @@
+import os
 
 # db
 DATABASE_HOST = 'localhost:3306'
@@ -10,7 +11,10 @@ SQLALCHEMY_DATABASE_URI = "mysql+pymysql://{0}:{1}@{2}/{3}".format(DATABASE_USER
                                                                    DATABASE_HOST,
                                                                    DEFAULT_DATABASE)
 
-SQLALCHEMY_ECHO = True
+SQLALCHEMY_ECHO = False
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 
 TEMPLATES_AUTO_RELOAD = True
+
+# flask
+SECRET_KEY = os.environ['SECRET_KEY']

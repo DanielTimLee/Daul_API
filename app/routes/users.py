@@ -3,8 +3,8 @@ import datetime
 from flask import render_template, request, jsonify
 
 from app import app, db
+from app.forms.user import SignInForm, SignUpForm
 from app.models.user import UserModel
-
 
 @app.route('/users/<string:username>')
 def user(username):
@@ -21,7 +21,10 @@ def user(username):
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
-    if request.method == 'POST':
+    form = SignUpForm(request.form)
+
+    if request.method == 'POST' and form.validate():
+
         new_user = UserModel(
             username=request.form.get('username'),
             password=request.form.get('password'),
@@ -39,12 +42,14 @@ def signup():
             ]
         })
 
-    return render_template('signup.html')
+    return render_template('signup.html', form=form)
 
 
 @app.route('/signin', methods=['GET', 'POST'])
 def signin():
-    if request.method == 'POST':
+    form = SignInForm(request.form)
+
+    if request.method == 'POST' and form.validate():
 
         user = UserModel.query. \
             filter_by(username=request.form.get('username')). \
@@ -61,4 +66,4 @@ def signin():
                 ]
             })
 
-    return render_template('signin.html')
+    return render_template('signin.html', form=form)

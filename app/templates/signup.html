@@ -6,15 +6,31 @@
 
 {% block content %}
 
-  <form action="{{ request.url }}" method="POST" class="ui form signup-form">
-    <label for="username">Username</label>
-    <input name="username" type="text"/>
-    <label for="password">Password</label>
-    <input name="password" type="password"/>
-    <label for="email">Email Address</label>
-    <input name="email" type="email"/>
+<form action="{{ request.url }}" method="POST" class="ui form signup-form">
+  {{ form.csrf_token }} 
+  <div class="field"> 
+    <div class="ui small input"> 
+      {{ form.username(placeholder="Username") }}
+       
+    </div>
+  </div>
+  <div class="field"> 
+    <div class="ui small input"> 
+      {{ form.password(placeholder="Password") }} 
+    </div>
+  </div>
+  <div class="field"> 
+    <div class="ui small input"> 
+      {{ form.confirm_password(placeholder="Confirm Password") }} 
+    </div>
+  </div>
+  <div class="field"> 
+    <div class="ui small input"> 
+      {{ form.email(placeholder="E-Mail") }} 
+    </div>
+  </div>
 
-    <button type="submit" class="fluid ui primary button">회원 가입</button>
-  </form>
+  <button type="submit" class="fluid ui primary button">회원 가입</button>
+</form>
 
 {% endblock %}
