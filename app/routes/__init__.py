@@ -1,2 +1,3 @@
 __all__ = ['index',
-           'users']
+           'user',
+           'document']
