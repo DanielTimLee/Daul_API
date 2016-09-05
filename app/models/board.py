@@ -6,8 +6,8 @@ from sqlalchemy.dialects.mysql import TIMESTAMP, INTEGER
 from app import db
 
 
-class UserModel(db.Model):
-    __tablename__ = 'users'
+class BoardModel(db.Model):
+    __tablename__ = 'boards'
     __table_args__ = {
         'mysql_charset': 'utf8'
     }
@@ -16,27 +16,13 @@ class UserModel(db.Model):
         INTEGER(20, unsigned=True),
         primary_key=True
     )
-    username = Column(
-        String(80),
-        unique=True,
-        nullable=False
-    )
-    password = Column(
-        String(80),
-        nullable=False
-    )
     name = Column(
         String(80),
-        nullable=False
-    )
-    nickname = Column(
-        String(80),
         unique=True,
         nullable=False
     )
-    email = Column(
-        String(120),
-        unique=True,
+    title = Column(
+        String(100),
         nullable=False
     )
     created_date = Column(

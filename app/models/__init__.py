@@ -1,1 +1,3 @@
-__all__ = ['user']
+__all__ = ['user',
+           'board',
+           'document']
