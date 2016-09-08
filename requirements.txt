@@ -1,6 +1,8 @@
+aniso8601==1.1.0
 click==6.6
 decorator==4.0.10
 Flask==0.11.1
+Flask-RESTful==0.3.5
 Flask-SQLAlchemy==2.1
 Flask-WTF==0.12
 infinity==1.4
@@ -9,6 +11,8 @@ itsdangerous==0.24
 Jinja2==2.8
 MarkupSafe==0.23
 PyMySQL==0.7.7
+python-dateutil==2.5.3
+pytz==2016.6.1
 six==1.10.0
 SQLAlchemy==1.0.14
 SQLAlchemy-Utils==0.32.9

@@ -10,4 +10,8 @@ from app.models import *
 
 db.create_all()
 
+from flask_restful import Api
+
+api = Api(app)
+
 from app.routes import *

@@ -1,47 +1,50 @@
 from flask import jsonify, request
+from flask_restful import Resource, reqparse
+from sqlalchemy.orm.exc import NoResultFound
 
-from app import app, db
+from app import db, api
 from app.models.board import BoardModel
 
 
-@app.route('/board/')
-def list_board():
-    result = BoardModel.query.all()
+@api.resource('/board/')
+class Board(Resource):
+    def get(self):
 
-    return jsonify(print_board(result))
+        param_parser = reqparse.RequestParser()
+        param_parser.add_argument('q', required=False, default=None)
+        args = param_parser.parse_args()
 
+        if not args.q:
+            result = BoardModel.query.all()
 
-@app.route('/board/add/')
-def add_board():
-    name = request.args.get('name')
-    title = request.args.get('title')
+        else:
+            try:
+                result = BoardModel.query.filter_by(name=args.q).all()
 
-    if name and title:
-        new_board = BoardModel(
-            name=name,
-            title=title
-        )
+            except NoResultFound:
+                result = []
+                result.append({
+                    'msg': "Not found"
+                })
 
-        db.session.add(new_board)
-        db.session.commit()
-
-        return "Success"
-
-    else:
-        return "Error!"
-
-
-@app.route('/board/search/<board_title>')
-def search_board(board_title):
-    result = BoardModel.query. \
-        filter_by(title=board_title). \
-        all()
-
-    if result:
         return jsonify(print_board(result))
 
-    else:
-        return "None Found!"
+    def post(self):
+        request_body = request.get_json()
+
+        if request_body['name'] and request_body['title']:
+            new_board = BoardModel(
+                name=request_body['name'],
+                title=request_body['title']
+            )
+
+            db.session.add(new_board)
+            db.session.commit()
+
+            return "Success"
+
+        else:
+            return "Error!"
 
 
 def print_board(result):
